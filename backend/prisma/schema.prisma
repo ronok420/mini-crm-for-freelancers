@@ -1,0 +1,78 @@
+// prisma/schema.prisma
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Client {
+  id         String   @id @default(uuid())
+  userId     String
+  name       String
+  email      String
+  phone      String
+  company    String?
+  notes      String?
+  createdAt  DateTime @default(now())
+
+  projects          Project[]
+  interactionLogs   InteractionLog[]
+  reminders         Reminder[]
+}
+
+model Project {
+  id         String   @id @default(uuid())
+  clientId   String
+  title      String
+  budget     Float
+  deadline   DateTime
+  status     ProjectStatus
+  createdAt  DateTime @default(now())
+
+  client           Client   @relation(fields: [clientId], references: [id])
+  interactionLogs  InteractionLog[]
+  reminders        Reminder[]
+}
+
+model InteractionLog {
+  id         String   @id @default(uuid())
+  clientId   String?
+  projectId  String?
+  date       DateTime
+  type       InteractionType
+  notes      String?
+  createdAt  DateTime @default(now())
+
+  client     Client?  @relation(fields: [clientId], references: [id])
+  project    Project? @relation(fields: [projectId], references: [id])
+}
+
+model Reminder {
+  id         String   @id @default(uuid())
+  userId     String
+  clientId   String?
+  projectId  String?
+  note       String
+  dueDate    DateTime
+  createdAt  DateTime @default(now())
+
+  client     Client?  @relation(fields: [clientId], references: [id])
+  project    Project? @relation(fields: [projectId], references: [id])
+}
+
+enum ProjectStatus {
+  planned
+  in_progress
+  completed
+  cancelled
+}
+
+enum InteractionType {
+  call
+  email
+  meeting
+}
