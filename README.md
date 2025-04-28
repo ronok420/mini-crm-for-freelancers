@@ -222,12 +222,15 @@ Authorization: Bearer <token>
 
 ## 📋 Postman Collection
 
-You can import the Postman collection:
+You can directly download the Postman collection file:
 
-**Postman File:**
-```text
-/mini-crm-collection.json
-```
+👉 [**Download mini-crm-collection.json**](https://github.com/ronok420/mini-crm-for-freelancers/blob/main/mini-crm-collection.json)
+
+
+
+1. Select the downloaded `mini-crm-collection.json` file.
+2. Start testing the API endpoints.
+
 
 ---
 
